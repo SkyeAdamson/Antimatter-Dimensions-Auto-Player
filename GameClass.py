@@ -4,6 +4,7 @@ from CurrencyManagerClass import CurrencyManager
 from DimensionManagerClass import DimensionManager
 from BrowserManagerClass import BrowserManager
 from InfinityManager import InfinityManager
+from StrategyManager import StrategyManager
 
 class Game:
 
@@ -23,3 +24,4 @@ class Game:
         self.CurrencyManager = CurrencyManager(self)
         self.DimensionManager = DimensionManager(self)
         self.InfinityManager = InfinityManager(self)
+        self.StrategyManager = StrategyManager(self)

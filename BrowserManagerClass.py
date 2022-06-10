@@ -40,7 +40,14 @@ class BrowserManager:
         if self.current_view == self.View.INFINITY:
             return True
         else:
-            infinity_button = self.game_instance.driver.find_element(By.ID, "infinitybtn")
+            try:
+                infinity_button = WebDriverWait(self.game_instance.driver, 2).until(
+                    EC.element_to_be_clickable((By.ID, "infinitybtn"))
+                )
+            except TimeoutException as ex:
+                print("Infinity Button not clickable in time frame")
+                return False
+
             if infinity_button.is_displayed():
                 infinity_button.click()
                 self.current_view = self.View.INFINITY
