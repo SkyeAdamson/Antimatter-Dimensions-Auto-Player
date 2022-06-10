@@ -42,7 +42,7 @@ class BrowserManager:
             return True
         else:
             try:
-                infinity_button = WebDriverWait(self.game_instance.driver, 2).until(
+                infinity_button = WebDriverWait(self.game_instance.driver, 3).until(
                     EC.element_to_be_clickable((By.ID, "infinitybtn"))
                 )
             except TimeoutException as ex:

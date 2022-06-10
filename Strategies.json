@@ -1,0 +1,17 @@
+{
+    "strategies": [
+        {
+            "strategy_name" : "Pre-Infinity",
+            "active_challenge" : null,
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"ANTIMATTER_GALAXY" : null},
+                {"DIMENSION_BOOST" : null},
+                {"SACRIFICE" : null},
+                {"MAX_TICKSPEED" : null},
+                {"BUY_TENS" : null},
+                {"BUY_SINGLES" : null}
+            ]
+        }
+    ]
+}
