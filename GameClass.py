@@ -1,10 +1,12 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from ChallengeManager import ChallengeManager
 from CurrencyManagerClass import CurrencyManager
 from DimensionManagerClass import DimensionManager
 from BrowserManagerClass import BrowserManager
 from InfinityManager import InfinityManager
 from StrategyManager import StrategyManager
+from selenium.webdriver.common.by import By
 
 class Game:
 
@@ -19,9 +21,21 @@ class Game:
         driver.set_page_load_timeout(5)
         return driver     
 
+    def disable_sacrifice_confirmation(self) -> bool:
+        """
+        Returns true if sacrifice confirmation pop up was successfully disabled; otherwise, returns false.
+        """
+        sacrifice_checkbox = self.driver.find_element(By.ID, "confirmation")
+        if sacrifice_checkbox.is_displayed() and not sacrifice_checkbox.is_selected():
+            sacrifice_checkbox.click()
+            return True
+        else:
+            return False
+
     def create_managers(self):
         self.BrowserManager = BrowserManager(self)
         self.CurrencyManager = CurrencyManager(self)
         self.DimensionManager = DimensionManager(self)
         self.InfinityManager = InfinityManager(self)
         self.StrategyManager = StrategyManager(self)
+        self.ChallengeManager = ChallengeManager(self)

@@ -9,7 +9,8 @@ class BrowserManager:
     class View(Enum):
         NONE = auto(),
         DIMENSIONS = auto(),
-        INFINITY = auto()
+        INFINITY = auto(),
+        CHALLENGES = auto()
 
     def __init__(self, game_instance):
         self.game_instance = game_instance
@@ -51,6 +52,25 @@ class BrowserManager:
             if infinity_button.is_displayed():
                 infinity_button.click()
                 self.current_view = self.View.INFINITY
+                return True
+            else:
+                return False
+
+    def load_challenges(self):
+        if self.current_view == self.View.CHALLENGES:
+            return True
+        else:
+            try:
+                challenges_button = WebDriverWait(self.game_instance.driver, 2).until(
+                    EC.element_to_be_clickable((By.ID, "challengesbtn"))
+                )
+            except TimeoutException as ex:
+                print("Infinity Button not clickable in time frame")
+                return False
+            
+            if challenges_button.is_displayed():
+                challenges_button.click()
+                self.current_view = self.View.CHALLENGES
                 return True
             else:
                 return False
