@@ -3,11 +3,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 from CurrencyManagerClass import CurrencyManager
 from DimensionManagerClass import DimensionManager
 from BrowserManagerClass import BrowserManager
+from InfinityManager import InfinityManager
 
 class Game:
 
-    def __init__(self):
+    def __init__(self, debug_mode = False):
         self.driver = self.create_driver()
+        self.debug_mode = debug_mode
 
     def create_driver(self):
         options = webdriver.ChromeOptions()
@@ -20,3 +22,4 @@ class Game:
         self.BrowserManager = BrowserManager(self)
         self.CurrencyManager = CurrencyManager(self)
         self.DimensionManager = DimensionManager(self)
+        self.InfinityManager = InfinityManager(self)

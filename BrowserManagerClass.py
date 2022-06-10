@@ -8,7 +8,8 @@ class BrowserManager:
 
     class View(Enum):
         NONE = auto(),
-        DIMENSIONS = auto()
+        DIMENSIONS = auto(),
+        INFINITY = auto()
 
     def __init__(self, game_instance):
         self.game_instance = game_instance
@@ -27,7 +28,25 @@ class BrowserManager:
         if self.current_view == self.View.DIMENSIONS:
             return True
         else:
-            return False
+            dimensions_button = self.game_instance.driver.find_element(By.ID, "dimensionsbtn")
+            if dimensions_button.is_displayed():
+                dimensions_button.click()
+                self.current_view = self.View.DIMENSIONS
+                return True
+            else:
+                return False
+
+    def load_infinity(self):
+        if self.current_view == self.View.INFINITY:
+            return True
+        else:
+            infinity_button = self.game_instance.driver.find_element(By.ID, "infinitybtn")
+            if infinity_button.is_displayed():
+                infinity_button.click()
+                self.current_view = self.View.INFINITY
+                return True
+            else:
+                return False
 
     def return_element_by_id(self, id):
         """

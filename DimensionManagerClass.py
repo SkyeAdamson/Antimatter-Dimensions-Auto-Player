@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import ElementNotInteractableException
+from selenium.common.exceptions import ElementNotInteractableException, ElementClickInterceptedException
 
 class DimensionManager:
 
@@ -12,6 +12,12 @@ class DimensionManager:
 
     def __init__(self, game_instance):
         self.game_instance = game_instance
+
+    def get_dimension_boosts(self):
+        return int(self.game_instance.driver.execute_script("return player.resets"))
+
+    def get_galaxy_count(self):
+        return int(self.game_instance.driver.execute_script("return player.galaxies"))
 
     def purchase_sacrifice(self):
         sacrifice_button = self.game_instance.driver.find_element(By.ID, "sacrifice")
@@ -34,3 +40,5 @@ class DimensionManager:
                     button_element.click()
         except ElementNotInteractableException as e:
             print(f"Tried to click element associated with {element_id} but was not interactable")
+        except ElementClickInterceptedException as e:
+            print(f"Tried to click element associated with {element_id} but was not clickable")
