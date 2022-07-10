@@ -1,5 +1,6 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from AutobuyerManager import AutobuyerManager
 from ChallengeManager import ChallengeManager
 from CurrencyManagerClass import CurrencyManager
 from DimensionManagerClass import DimensionManager
@@ -39,3 +40,12 @@ class Game:
         self.InfinityManager = InfinityManager(self)
         self.StrategyManager = StrategyManager(self)
         self.ChallengeManager = ChallengeManager(self)
+        self.AutobuyerManager = AutobuyerManager(self)
+
+    def manager_pre_checks(self):
+        self.InfinityManager.purchased_upgrades = self.InfinityManager.get_purchased_infinity_upgrades()
+        self.ChallengeManager.completed_challenges = self.ChallengeManager.get_completed_challenges()
+        self.ChallengeManager.active_challenge = self.ChallengeManager.get_active_challenge()
+        self.AutobuyerManager.set_all_interval_maxed()
+        self.AutobuyerManager.set_all_bulk_maxed()
+        self.StrategyManager.construct_strategies_from_json()

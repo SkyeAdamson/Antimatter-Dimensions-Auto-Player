@@ -15,6 +15,10 @@ class InfinityManager:
         else:
             return False
 
+    def enable_break_infinity(self):
+        self.game_instance.BrowserManager.click_element_if_inner("break", "BREAK INFINITY",
+            self.game_instance.BrowserManager.View.BREAK)
+
     def get_purchased_infinity_upgrades(self):
         if self.game_instance.BrowserManager.load_infinity():
             purchased_upgrades = []
@@ -29,13 +33,23 @@ class InfinityManager:
 
     def buy_available_upgrades(self):
         if self.game_instance.BrowserManager.load_infinity():
-            for upgrade_id in self.order_to_purchase_upgrades:
-                if upgrade_id not in self.purchased_upgrades:
-                    upgrade_button = self.game_instance.driver.find_element(By.ID, f"infi{upgrade_id}")
-                    if upgrade_button.get_attribute("class") == "infinistorebtn1":
-                        upgrade_button.click()
+            if not len(self.purchased_upgrades) == 16:
+                for upgrade_id in self.order_to_purchase_upgrades:
+                    if upgrade_id not in self.purchased_upgrades:
+                        upgrade_button = self.game_instance.driver.find_element(By.ID, f"infi{upgrade_id}")
+                        if upgrade_button.get_attribute("class") == f"infinistorebtn{str(upgrade_id)[1]}":
+                            upgrade_button.click()
+                        else:
+                            break
+            else:
+                x2_button = self.game_instance.driver.find_element(By.ID, f"infiMult")
+                while x2_button.get_attribute("class") == "infinimultbtn":
+                    x2_button.click()
             self.purchased_upgrades = self.get_purchased_infinity_upgrades()
             return True
         else:
             return False
+
+
+
 

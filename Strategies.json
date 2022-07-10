@@ -1,8 +1,263 @@
 {
     "strategies": [
         {
+            "strategy_name" : "Break Infinity",
+            "conditions" : [
+                {"AUTOBUYER_INTERVALS_MAXED" : null}
+            ],
+            "priorities" : [
+                {"SACRIFICE" : null}
+            ],
+
+            "autobuyers_enabled" : true,
+            "autobuyers_priority" : "default",
+            "auto_dimboost_max_8ths" : 0,
+            "break_infinity" : true,
+            "galaxies_to_always_dimboost" : 6,
+            "max_galaxies" : 6
+        },
+        {
+            "strategy_name" : "Autobuyer Grind",
+            "conditions" : [
+                {"CHALLENGE_COMPLETED" : 9}
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"DIMENSION_BOOST" : 7},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ],
+
+            "on_big_crunch" : [
+                "autobuyers"
+            ]
+        },
+        {
+            "strategy_name" : "Challenge 9",
+            "conditions" : [
+                {"CHALLENGE_COMPLETED" : 12}
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"SACRIFICE" : null},
+                {"C9_STRATEGY" : null}
+            ],
+
+            "active_challenge" : 9,
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ]
+        },
+        {
+            "strategy_name" : "Challenge 12",
+            "active_challenge" : 12,
+            "conditions" : [
+                {"CHALLENGE_COMPLETED" : 10}
+            ],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"ANTIMATTER_GALAXY" : 2},
+                {"DIMENSION_BOOST" : 11},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ]
+        },
+        {
+            "strategy_name" : "Challenge 10",
+            "active_challenge" : 10,
+            "conditions" : [
+                {"CHALLENGE_COMPLETED" : 2}
+            ],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"ANTIMATTER_GALAXY" : 2},
+                {"DIMENSION_BOOST" : 11},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ]
+        },
+        {
+            "strategy_name" : "Challenge 2",
+            "active_challenge" : 2,
+            "conditions" : [
+                {"CHALLENGE_COMPLETED" : 6}
+            ],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"ANTIMATTER_GALAXY" : 1},
+                {"DIMENSION_BOOST" : 11},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ]
+        },
+        {
+            "strategy_name" : "Challenge 6",
+            "active_challenge" : 6,
+            "conditions" : [
+                {"CHALLENGE_COMPLETED" : 7}
+            ],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"ANTIMATTER_GALAXY" : 1},
+                {"DIMENSION_BOOST" : 11},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ]
+        },
+        {
+            "strategy_name" : "Challenge 7",
+            "active_challenge" : 7,
+            "conditions" : [
+                {"CHALLENGE_COMPLETED" : 5}
+            ],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"ANTIMATTER_GALAXY" : 1},
+                {"DIMENSION_BOOST" : 11},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ]
+        },
+        {
+            "strategy_name" : "Challenge 5",
+            "active_challenge" : 5,
+            "conditions" : [
+                {"CHALLENGE_COMPLETED" : 4}
+            ],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"ANTIMATTER_GALAXY" : 1},
+                {"DIMENSION_BOOST" : 11},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ]
+        },
+        {
+            "strategy_name" : "Challenge 5",
+            "active_challenge" : 5,
+            "conditions" : [
+                {"CHALLENGE_COMPLETED" : 4}
+            ],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"ANTIMATTER_GALAXY" : 1},
+                {"DIMENSION_BOOST" : 11},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ]
+        },
+        {
+            "strategy_name" : "Challenge 4",
+            "active_challenge" : 4,
+            "conditions" : [
+                {"CHALLENGE_COMPLETED" : 3}
+            ],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"ANTIMATTER_GALAXY" : 1},
+                {"DIMENSION_BOOST" : 11},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ]
+        },
+        {
+            "strategy_name" : "Challenge 3",
+            "active_challenge" : 3,
+            "conditions" : [
+                {"CHALLENGE_COMPLETED" : 11}
+            ],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"ANTIMATTER_GALAXY" : 1},
+                {"DIMENSION_BOOST" : 11},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ]
+        },
+        {
+            "strategy_name" : "Challenge 11",
+            "active_challenge" : 11,
+            "conditions" : [
+                {"INF_UPGRADE_PURCHASED" : 44}
+            ],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"ANTIMATTER_GALAXY" : 1},
+                {"DIMENSION_BOOST" : 11},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ]
+        },
+        {
+            "strategy_name" : "Post-x2 Galaxy",
+            "conditions" : [
+                {"INF_UPGRADE_PURCHASED" : 24}
+            ],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"ANTIMATTER_GALAXY" : 1},
+                {"DIMENSION_BOOST" : 11},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ]
+
+        },
+        {
+            "strategy_name" : "Early Infinity",
+            "active_challenge" : 8,
+            "conditions" : [
+                {"MIN_IP" : 1}
+            ],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
+            "priorities" : [
+                {"BIG_CRUNCH" : null},
+                {"DIMENSION_BOOST" : 5},
+                {"SACRIFICE" : 10},
+                {"MAX_ALL" : null}
+            ]
+
+        },
+        {
             "strategy_name" : "Pre-Infinity",
-            "active_challenge" : null,
+            "conditions" : [],
+            "on_big_crunch" : [
+                "infinity_upgrades"
+            ],
             "priorities" : [
                 {"BIG_CRUNCH" : null},
                 {"ANTIMATTER_GALAXY" : null},

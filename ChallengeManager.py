@@ -27,8 +27,8 @@ class ChallengeManager:
         if self.game_instance.BrowserManager.load_challenges():
             completed_challenges = []
             for challenge_id in self.challenge_conversion_table.keys():
-                button_element = self.game_instance.driver.find_element(By.ID, f"challenge{self.challenge_conversion_table[challenge_id]}")
-                if button_element.get_attribute("class") == "completedchallengesbtn":
+                element_id = f"challenge{self.challenge_conversion_table[challenge_id]}"
+                if self.game_instance.BrowserManager.check_element_class(element_id, "completedchallengesbtn"):
                     completed_challenges.append(challenge_id)
             return completed_challenges
         else:
@@ -37,19 +37,13 @@ class ChallengeManager:
     def get_active_challenge(self):
         if self.game_instance.BrowserManager.load_challenges():
             for challenge_id in self.challenge_conversion_table.keys():
-                challenge_button = self.game_instance.driver.find_element(By.ID, f"challenge{self.challenge_conversion_table[challenge_id]}")
-                if challenge_button.get_attribute("class") == "onchallengebtn":
+                element_id = f"challenge{self.challenge_conversion_table[challenge_id]}"
+                if self.game_instance.BrowserManager.check_element_class(element_id, "onchallengebtn"):
                     return challenge_id
             return None
         return None
 
     def start_challenge(self, challenge_id):
-        if self.game_instance.BrowserManager.load_challenges():
-            challenge_button = self.game_instance.driver.find_element(By.ID, f"challenge{self.challenge_conversion_table[challenge_id]}")
-            if challenge_button.get_attribute("class") != "onchallengebtn":
-                challenge_button.click()
-                return True
-            else:
-                return True
-        else:
-            return False
+        element_id = f"challenge{self.challenge_conversion_table[challenge_id]}"
+        self.game_instance.BrowserManager.click_element_if_not_class(element_id, "onchallengesbtn", 
+            self.game_instance.BrowserManager.View.CHALLENGES)

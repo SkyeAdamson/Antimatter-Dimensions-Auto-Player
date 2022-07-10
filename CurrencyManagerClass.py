@@ -6,4 +6,26 @@ class CurrencyManager:
 
     # Change to get/set
     def get_antimatter_balance(self):
-        self.antimatter = float(self.game_instance.driver.execute_script("return player.money"))
+        self.antimatter = float(self.game_instance.BrowserManager.execute_script("return player.money"))
+
+    def get_cost_of_buy_10(self, dimension_id):
+        dim_name = ""
+        if dimension_id == 1:
+            dim_name = "first"
+        elif dimension_id == 2:
+            dim_name = "second"
+        elif dimension_id == 3:
+            dim_name = "third"
+        elif dimension_id == 4:
+            dim_name = "fourth"
+        elif dimension_id == 5:
+            dim_name = "fifth"
+        elif dimension_id == 6:
+            dim_name = "sixth"
+        elif dimension_id == 7:
+            dim_name = "seventh"
+        elif dimension_id == 8:
+            dim_name = "eight"
+
+        cost = float(self.game_instance.BrowserManager.execute_script(f"return player.{dim_name}Cost")) * 10
+        return '{:.2e}'.format(float(cost))
