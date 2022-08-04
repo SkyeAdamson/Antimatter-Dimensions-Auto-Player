@@ -45,5 +45,5 @@ class ChallengeManager:
 
     def start_challenge(self, challenge_id):
         element_id = f"challenge{self.challenge_conversion_table[challenge_id]}"
-        self.game_instance.BrowserManager.click_element_if_not_class(element_id, "onchallengesbtn", 
+        self.game_instance.BrowserManager.click_element_if_not_class(element_id, "onchallengebtn", 
             self.game_instance.BrowserManager.View.CHALLENGES)

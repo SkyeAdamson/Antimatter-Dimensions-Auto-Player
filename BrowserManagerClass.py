@@ -1,4 +1,4 @@
-from mysqlx import View
+from time import sleep
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -9,12 +9,15 @@ from enum import Enum, auto
 class BrowserManager:
 
     class View(Enum):
-        NONE = auto(),
+        NONE = auto()
+        OPTIONS = "options"
+        OTHER_OPTIONS = "other_options"
         DIMENSIONS = "dimensions"
         INFINITY = "infinity"
         CHALLENGES = "challenges"
         AUTOBUYERS = "autobuyers"
         BREAK = "break"
+        INFINITY_UPGRADES = "infinity_upgrades"
 
     def __init__(self, game_instance):
         self.game_instance = game_instance
@@ -54,8 +57,65 @@ class BrowserManager:
                 return False
 
             if infinity_button.is_displayed():
+                sleep(1) # Explicit wait whilst working out bug
                 infinity_button.click()
                 self.current_view = self.View.INFINITY
+                return True
+            else:
+                return False
+
+    def load_options(self):
+        if self.current_view == self.View.OPTIONS:
+            return True
+        else:
+            try:
+                options_button = WebDriverWait(self.game_instance.driver, 3).until(
+                    EC.element_to_be_clickable((By.ID, "optionsbtn"))
+                )
+            except TimeoutException as ex:
+                print("Options Button not clickable in time frame")
+                return False
+
+            if options_button.is_displayed():
+                sleep(1) # Explicit wait whilst working out bug
+                options_button.click()
+                self.current_view = self.View.OPTIONS
+                return True
+            else:
+                return False
+
+    def load_other_options(self):
+        if self.current_view == self.View.OTHER_OPTIONS:
+            return True
+        else:
+            if self.load_options():
+                options_div = self.return_element_from_id("options")
+                while options_div == None:
+                    self.load_options()
+                    options_div = self.return_element_from_id("options")
+
+                tab_buttons = options_div.find_elements(By.CLASS_NAME, "secondarytabbtn")
+                other_btn = [button for button in tab_buttons if button.get_attribute("innerHTML") == "Other Options"][0]
+                other_btn.click()
+                self.current_view = self.View.OTHER_OPTIONS
+                return True
+            else:
+                return False
+
+    def load_infinity_upgrades(self):
+        if self.current_view == self.View.INFINITY_UPGRADES:
+            return True
+        else:
+            if self.load_infinity():
+                infinity_div = self.return_element_from_id("infinity")
+                while infinity_div == None: # Weird bug where big crunch went to production
+                    self.load_infinity()
+                    infinity_div = self.return_element_from_id("infinity")
+
+                tab_buttons = infinity_div.find_elements(By.CLASS_NAME, "secondarytabbtn")
+                upgrade_btn = [button for button in tab_buttons if button.get_attribute("innerHTML") == "Upgrades"][0]
+                upgrade_btn.click()
+                self.current_view = self.View.INFINITY_UPGRADES
                 return True
             else:
                 return False

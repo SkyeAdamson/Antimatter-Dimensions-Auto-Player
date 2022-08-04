@@ -1,18 +1,22 @@
 from GameClass import Game
 
-game = Game(debug_mode=False)
+game = Game(debug_mode=True)
 game.create_managers()
 if game.BrowserManager.start_browser():
 
     #TODO:
-    # - Need a way to get back to Upgrades from sub-tabs
-    # - Need to split x2 multiplier upgrade into own function
-    # - Need to initalise auto retry challenge to false. 
     # - Support lists for active_challenge modifier to pre-define one strat for multiple challenges
     # - Find element checks in browser manager (PARTIALLY DONE)
-    # - Set auto big crunch amount
+    # - Full run from start
+    # - Add strat for max all after 1st dim shiftf
+    # - Challenge resetting during early inf stage
+    # - Set autobuyers to buy 10/max
+    # - Weird bug with infinity upgrades going to production screen, can't find Infinity div element
+    # - Multi post-break upgrades purchasing
+    # - Smarter way to deal with upgrading, only doing it when upgrade can be bought?
 
     game.disable_sacrifice_confirmation()
+    game.disable_challenge_auto_retry()
     game.manager_pre_checks() # Set up managers with any required data
     game.StrategyManager.current_strategy = game.StrategyManager.choose_current_strategy()
     game.StrategyManager.perform_strategy_setup()

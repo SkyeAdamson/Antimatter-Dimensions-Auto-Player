@@ -1,11 +1,12 @@
 {
     "strategies": [
         {
-            "strategy_name" : "Break Infinity",
+            "strategy_name" : "Break (x64)",
             "conditions" : [
-                {"AUTOBUYER_INTERVALS_MAXED" : null}
+                {"IP_MULT_LEVEL" : 6}
             ],
             "priorities" : [
+                {"BUY_BREAK_UPS" : null},
                 {"SACRIFICE" : null}
             ],
 
@@ -13,7 +14,26 @@
             "autobuyers_priority" : "default",
             "auto_dimboost_max_8ths" : 0,
             "break_infinity" : true,
+            "big_crunch_amount" : "2300",
             "galaxies_to_always_dimboost" : 6,
+            "max_galaxies" : 6
+        },
+        {
+            "strategy_name" : "Break Infinity",
+            "conditions" : [
+                {"AUTOBUYER_INTERVALS_MAXED" : null}
+            ],
+            "priorities" : [
+                {"BUY_BREAK_UPS" : null},
+                {"SACRIFICE" : null}
+            ],
+
+            "autobuyers_enabled" : true,
+            "autobuyers_priority" : "default",
+            "auto_dimboost_max_8ths" : 0,
+            "break_infinity" : true,
+            "big_crunch_amount" : "725",
+            "galaxies_to_always_dimboost" : 5,
             "max_galaxies" : 6
         },
         {
@@ -247,7 +267,7 @@
             "priorities" : [
                 {"BIG_CRUNCH" : null},
                 {"DIMENSION_BOOST" : 5},
-                {"SACRIFICE" : 10},
+                {"SACRIFICE" : 8},
                 {"MAX_ALL" : null}
             ]
 

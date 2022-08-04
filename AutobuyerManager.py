@@ -53,7 +53,9 @@ class AutobuyerManager:
         self.game_instance.BrowserManager.send_keys_to_element("priority11", value, clear=True,
             page_view = self.game_instance.BrowserManager.View.AUTOBUYERS)
 
-
+    def set_big_crunch_amount(self, value):
+        self.game_instance.BrowserManager.send_keys_to_element("priority12", value, clear=True,
+            page_view = self.game_instance.BrowserManager.View.AUTOBUYERS)
 
     def set_interval_maxed(self, autobuyer_id):
         interval = self.game_instance.BrowserManager.execute_script(f"return player.autobuyers[{autobuyer_id}].interval")

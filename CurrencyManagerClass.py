@@ -1,3 +1,9 @@
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+
 class CurrencyManager:
 
     def __init__(self, game_instance):
@@ -7,6 +13,9 @@ class CurrencyManager:
     # Change to get/set
     def get_antimatter_balance(self):
         self.antimatter = float(self.game_instance.BrowserManager.execute_script("return player.money"))
+
+    def get_ip(self):
+        return int(float('{:.2e}'.format(float(self.game_instance.BrowserManager.execute_script("return player.infinityPoints")))))
 
     def get_cost_of_buy_10(self, dimension_id):
         dim_name = ""

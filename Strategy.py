@@ -17,7 +17,10 @@ class Strategy:
     def conditions_met(self, game_instance):
         all_conditions_met = True
         for condition in self.conditions:
-            if condition[0] == "MAX_IP":
+            if condition[0] == "IP_MULT_LEVEL":
+                if game_instance.InfinityManager.x2_multi_level < condition[1]:
+                    all_conditions_met = False
+            elif condition[0] == "MAX_IP":
                 infinites = int(game_instance.driver.execute_script("return player.infinitied"))
                 if infinites > condition[1]:
                     all_conditions_met = False
@@ -40,11 +43,20 @@ class Strategy:
 
     def execute_strategy(self, game_instance):
         for priority in self.priority_list:
-            if priority[0] == "BIG_CRUNCH":
+            if priority[0] == "BUY_BREAK_UPS":
+                game_instance.InfinityManager.buy_available_break_upgrades()
+                game_instance.BrowserManager.load_dimensions()
+                game_instance.StrategyManager.current_strategy = game_instance.StrategyManager.choose_current_strategy()
+                if game_instance.StrategyManager.current_strategy != game_instance.StrategyManager.last_strategy:
+                    game_instance.StrategyManager.perform_strategy_setup()
+            elif priority[0] == "BIG_CRUNCH":
                 if game_instance.InfinityManager.big_crunch():
                     try:
                         dim_button = WebDriverWait(game_instance.driver, 3).until(
                             EC.element_to_be_clickable((By.ID, "dimensionsbtn"))
+                        )
+                        WebDriverWait(game_instance.driver, 3).until(
+                            EC.invisibility_of_element((By.ID, "bigcrunch"))
                         )
                     except TimeoutException as ex:
                         print("Dimension Button not clickable in time frame")

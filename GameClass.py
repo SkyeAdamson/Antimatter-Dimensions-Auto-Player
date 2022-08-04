@@ -22,6 +22,17 @@ class Game:
         driver.set_page_load_timeout(5)
         return driver     
 
+    def disable_challenge_auto_retry(self) -> bool:
+        """
+        Returns true if auto retry was successfully disabled
+        """
+        auto_retry = self.BrowserManager.return_element_from_id("retry", self.BrowserManager.View.OTHER_OPTIONS)
+        if auto_retry.get_attribute("innerHTML") == "Automatically retry challenges: ON":
+            auto_retry.click()
+            return True
+        else:
+            return False
+
     def disable_sacrifice_confirmation(self) -> bool:
         """
         Returns true if sacrifice confirmation pop up was successfully disabled; otherwise, returns false.
@@ -43,9 +54,17 @@ class Game:
         self.AutobuyerManager = AutobuyerManager(self)
 
     def manager_pre_checks(self):
-        self.InfinityManager.purchased_upgrades = self.InfinityManager.get_purchased_infinity_upgrades()
-        self.ChallengeManager.completed_challenges = self.ChallengeManager.get_completed_challenges()
-        self.ChallengeManager.active_challenge = self.ChallengeManager.get_active_challenge()
-        self.AutobuyerManager.set_all_interval_maxed()
-        self.AutobuyerManager.set_all_bulk_maxed()
+        if self.BrowserManager.load_infinity():
+            self.InfinityManager.x2_multi_level = self.InfinityManager.get_x2_level()
+            self.InfinityManager.purchased_upgrades = self.InfinityManager.get_purchased_infinity_upgrades()
+            self.InfinityManager.buy_available_upgrades()
+            if len(self.InfinityManager.purchased_upgrades) == 16:
+                self.InfinityManager.purchased_break_upgrades = self.InfinityManager.get_purchased_break_upgrades()
+        if self.BrowserManager.load_challenges():
+            self.ChallengeManager.completed_challenges = self.ChallengeManager.get_completed_challenges()
+            self.ChallengeManager.active_challenge = self.ChallengeManager.get_active_challenge()
+        if self.BrowserManager.load_autobuyers():
+            self.AutobuyerManager.set_all_interval_maxed()
+            self.AutobuyerManager.set_all_bulk_maxed()
+        
         self.StrategyManager.construct_strategies_from_json()

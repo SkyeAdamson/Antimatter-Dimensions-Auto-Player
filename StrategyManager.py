@@ -9,6 +9,7 @@ class StrategyManager:
         "autobuyers_priority",
         "auto_dimboost_max_8ths",
         "break_infinity",
+        "big_crunch_amount",
         "galaxies_to_always_dimboost",
         "max_galaxies",
         "on_big_crunch"]
@@ -17,6 +18,7 @@ class StrategyManager:
         self.game_instance = game_instance
         self.strategies = []
         self.current_strategy = None
+        self.last_strategy = None
 
     def construct_strategies_from_json(self):
         with open('Strategies.json', 'r') as json_file:
@@ -60,6 +62,8 @@ class StrategyManager:
 
         if self.current_strategy.break_infinity:
             self.game_instance.InfinityManager.enable_break_infinity()
+            if self.current_strategy.big_crunch_amount != None:
+                self.game_instance.AutobuyerManager.set_big_crunch_amount(self.current_strategy.big_crunch_amount)
 
         if self.current_strategy.galaxies_to_always_dimboost != None:
             self.game_instance.AutobuyerManager.set_galaxies_to_dim_boost(self.current_strategy.galaxies_to_always_dimboost)
@@ -74,6 +78,7 @@ class StrategyManager:
         for strategy in self.strategies:
             if strategy.conditions_met(self.game_instance):
                 print(f"Current strategy is {strategy.name}")
+                self.last_strategy = self.current_strategy
                 return strategy
 
     def pre_infinity_strategy(self):
