@@ -92,6 +92,8 @@ class Strategy:
                     game_instance.DimensionManager.purchase_sacrifice(2)
             elif priority[0] == "MAX_ALL":
                 game_instance.DimensionManager.hold_m()
+            elif priority[0] == "MAX_MANUAL":
+                game_instance.DimensionManager.buy_max_manual()
             elif priority[0] == "MAX_TICKSPEED":
                 game_instance.DimensionManager.purchase_upgrade("tickSpeedMax")
             elif priority[0] == "BUY_TENS":

@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementNotInteractableException, ElementClickInterceptedException
 from selenium.webdriver.common.action_chains import ActionChains
+import itertools
 
 class DimensionManager:
 
@@ -24,6 +25,15 @@ class DimensionManager:
             print("Couldn't sacrifice")
         except IndexError as ex:
             print("Couldn't sacrifice")
+
+    def buy_max_manual(self):
+        dim_ids = list(map(lambda x: str(x[0]) + str(x[1]), itertools.product(["B", "M"], range(1, 9)))) + ["tickSpeed", "tickSpeedMax"]
+        dim_ids.reverse()
+        for id in dim_ids:
+            element = self.game_instance.driver.find_element(By.ID, id)
+            if element != None:
+                if element.is_displayed() and element.get_attribute("class") == "storebtn":
+                    element.click()
 
     def hold_m(self):
         try:
