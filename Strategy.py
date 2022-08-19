@@ -14,33 +14,6 @@ class Strategy:
         for key in modifiers.keys():
             setattr(self, key, modifiers[key])
 
-    def conditions_met(self, game_instance):
-        all_conditions_met = True
-        for condition in self.conditions:
-            if condition[0] == "IP_MULT_LEVEL":
-                if game_instance.InfinityManager.x2_multi_level < condition[1]:
-                    all_conditions_met = False
-            elif condition[0] == "MAX_IP":
-                infinites = int(game_instance.driver.execute_script("return player.infinitied"))
-                if infinites > condition[1]:
-                    all_conditions_met = False
-            elif condition[0] == "MIN_IP":
-                infinites = int(game_instance.driver.execute_script("return player.infinitied"))
-                if infinites < condition[1]:
-                    all_conditions_met = False
-            elif condition[0] == "INF_UPGRADE_PURCHASED":
-                if condition[1] not in game_instance.InfinityManager.purchased_upgrades:
-                    all_conditions_met = False
-            elif condition[0] == "CHALLENGE_COMPLETED":
-                if condition[1] not in game_instance.ChallengeManager.completed_challenges:
-                    all_conditions_met = False
-            elif condition[0] == "AUTOBUYER_INTERVALS_MAXED":
-                interval_set = set(game_instance.AutobuyerManager.intervals_maxed)
-                if not (len(interval_set) == 1 and list(interval_set)[0] == True):
-                    all_conditions_met = False
-        return all_conditions_met
-
-
     def execute_strategy(self, game_instance):
         for priority in self.priority_list:
             if priority[0] == "BUY_BREAK_UPS":
@@ -82,9 +55,18 @@ class Strategy:
             elif priority[0] == "DIMENSION_BOOST":
                 if priority[1] != None:
                     if game_instance.DimensionManager.get_dimension_boosts() < priority[1]:
-                        game_instance.DimensionManager.purchase_upgrade("softReset")
+                        success = game_instance.DimensionManager.buy_dimension_boost()
+                        if success and self.reevaluate == "DIMENSION_BOOST":
+                            game_instance.BrowserManager.load_dimensions()
+                            game_instance.StrategyManager.current_strategy = game_instance.StrategyManager.choose_current_strategy()
+                            game_instance.StrategyManager.perform_strategy_setup()        
                 else:
-                    game_instance.DimensionManager.purchase_upgrade("softReset")
+                    success = game_instance.DimensionManager.buy_dimension_boost()
+                    if success and self.reevaluate == "DIMENSION_BOOST":
+                        print("Reevaluating strategy")
+                        game_instance.BrowserManager.load_dimensions()
+                        game_instance.StrategyManager.current_strategy = game_instance.StrategyManager.choose_current_strategy()
+                        game_instance.StrategyManager.perform_strategy_setup()    
             elif priority[0] == "SACRIFICE":
                 if priority[1] != None:
                     game_instance.DimensionManager.purchase_sacrifice(priority[1])

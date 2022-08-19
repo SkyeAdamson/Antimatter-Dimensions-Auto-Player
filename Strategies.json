@@ -274,13 +274,25 @@
         },
         {
             "strategy_name" : "Pre-Infinity",
-            "conditions" : [],
+            "conditions" : [
+                {"MIN_DIM_BOOST" : 1}
+            ],
             "on_big_crunch" : [
                 "infinity_upgrades"
             ],
             "priorities" : [
                 {"BIG_CRUNCH" : null},
                 {"ANTIMATTER_GALAXY" : null},
+                {"DIMENSION_BOOST" : null},
+                {"SACRIFICE" : null},
+                {"MAX_ALL" : null}
+            ]
+        },
+        {
+            "strategy_name" : "Starting Strat",
+            "conditions" : [],
+            "reevaluate" : "DIMENSION_BOOST",
+            "priorities" : [
                 {"DIMENSION_BOOST" : null},
                 {"SACRIFICE" : null},
                 {"MAX_MANUAL" : null}

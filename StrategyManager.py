@@ -101,7 +101,10 @@ class StrategyManager:
                 if not self.check_challenge_completed(condition[1]):
                     all_conditions_met = False
             elif condition[0] == "AUTOBUYER_INTERVALS_MAXED":
-                if not self.check_autobuyer_intervals_maxed:
+                if not self.check_autobuyer_intervals_maxed():
+                    all_conditions_met = False
+            elif condition[0] == "MIN_DIM_BOOST":
+                if not self.check_min_dim_boost(condition[1]):
                     all_conditions_met = False
 
         return all_conditions_met
@@ -140,6 +143,12 @@ class StrategyManager:
     def check_autobuyer_intervals_maxed(self):
         interval_set = set(self.game_instance.AutobuyerManager.intervals_maxed)
         if not (len(interval_set) == 1 and list(interval_set)[0] == True):
+            return False
+        else:
+            return True
+
+    def check_min_dim_boost(self, minimum):
+        if self.game_instance.DimensionManager.get_dimension_boosts() < minimum:
             return False
         else:
             return True

@@ -8,6 +8,12 @@ class DimensionManager:
     def __init__(self, game_instance):
         self.game_instance = game_instance
 
+    def buy_dimension_boost(self):
+        if self.game_instance.BrowserManager.load_dimensions():
+            return self.game_instance.BrowserManager.click_element_if_class("softReset", "storebtn")
+        else:
+            return False
+
     def get_dimension_boosts(self):
         return int(self.game_instance.BrowserManager.execute_script("return player.resets"))
 
