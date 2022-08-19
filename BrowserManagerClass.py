@@ -205,7 +205,13 @@ class BrowserManager:
     def click_element_if_class(self, id : str, element_class : str, page_view : View = None):
         element = self.return_element_from_id(id, page_view)
         if element != None and element.get_attribute("class") == element_class:
-            element.click()
+            if element.is_displayed():
+                element.click()
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def click_element_if_not_class(self, id : str, element_class : str, page_view : View = None):
         element = self.return_element_from_id(id, page_view)

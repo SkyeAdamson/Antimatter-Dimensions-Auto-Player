@@ -8,7 +8,24 @@ class InfinityManager:
         self.purchased_upgrades = []
         self.purchased_break_upgrades = []
         self.x2_multi_level = 0
-        self.order_to_purchase_upgrades = [11, 21, 22, 23, 24, 12, 13, 14, 31, 32, 33, 34, 41, 42, 43, 44]
+        self.order_to_purchase_infinity_upgrades = [
+            (11, 1), 
+            (21, 1),
+            (22, 1), 
+            (23, 1), 
+            (24, 2), 
+            (12, 1), 
+            (13, 1),
+            (14, 1),
+            (31, 3),
+            (32, 5),
+            (33, 7),
+            (34, 10),
+            (41, 20), 
+            (42, 40), 
+            (43, 80), 
+            (44, 500)]
+
         self.order_to_purchase_break_upgrades = [(11, 1e4), (21, 5e4), (12, 1e5), (22, 1e6)]
 
     def break_upgrades_still_to_purchase(self):
@@ -63,6 +80,12 @@ class InfinityManager:
             return purchased_upgrades
         else:
             return []
+
+    def purchase_max_infinity_upgrades(self):
+        if self.game_instance.BrowserManager.load_infinity_upgrades():
+            if not len(self.purchased_upgrades) == 16:
+                unpurchased = [upgrade for upgrade in self.order_to_purchase_infinity_upgrades if upgrade[0] not in self.purchased_upgrades]
+                print(unpurchased)
 
     def buy_available_upgrades(self):
         if self.game_instance.BrowserManager.load_infinity_upgrades():
