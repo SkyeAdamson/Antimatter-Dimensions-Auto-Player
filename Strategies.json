@@ -3,7 +3,7 @@
         {
             "strategy_name" : "Break (x64)",
             "conditions" : [
-                {"IP_MULT_LEVEL" : 6}
+                {"MIN_IP_MULT_LEVEL" : 6}
             ],
             "priorities" : [
                 {"BUY_BREAK_UPS" : null},

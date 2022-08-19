@@ -13,7 +13,6 @@ if game.BrowserManager.start_browser():
     # - Weird bug with infinity upgrades going to production screen, can't find Infinity div element
     # - Multi post-break upgrades purchasing
     # - Smarter way to deal with upgrading, only doing it when upgrade can be bought?
-    # - Need to refactor purchasing dimensions in beginning to avoid delay
 
     game.disable_sacrifice_confirmation()
     game.disable_challenge_auto_retry()
