@@ -1,5 +1,10 @@
 import json
 from Strategy import Strategy
+import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 
 class StrategyManager:
 
@@ -152,3 +157,109 @@ class StrategyManager:
             return False
         else:
             return True
+
+
+    def execute_current_strategy(self):
+        for priority in self.current_strategy.priority_list:
+            if priority[0] == "BUY_BREAK_UPS":
+                self.game_instance.InfinityManager.buy_available_break_upgrades()
+                self.reevaluate_strategy()
+            elif priority[0] == "BIG_CRUNCH":
+                if self.game_instance.InfinityManager.big_crunch():
+                    try:
+                        dim_button = WebDriverWait(self.game_instance.driver, 3).until(
+                            EC.element_to_be_clickable((By.ID, "dimensionsbtn"))
+                        )
+                        WebDriverWait(self.game_instance.driver, 3).until(
+                            EC.invisibility_of_element((By.ID, "bigcrunch"))
+                        )
+                    except TimeoutException as ex:
+                        print("Dimension Button not clickable in time frame")
+
+                    if not self.current_strategy.on_big_crunch == None:
+                        for priority in self.current_strategy.on_big_crunch:
+                            if priority == "autobuyers":
+                                self.game_instance.AutobuyerManager.buy_max_upgrades()
+                            elif priority == "infinity_upgrades":
+                                self.game_instance.InfinityManager.buy_available_upgrades()
+
+                    self.game_instance.ChallengeManager.completed_challenges = self.game_instance.ChallengeManager.get_completed_challenges()
+                    self.reevaluate_strategy()
+                    break
+            elif priority[0] == "ANTIMATTER_GALAXY":
+                if priority[1] != None:
+                    if self.game_instance.DimensionManager.get_galaxy_count() < priority[1]:
+                        self.game_instance.DimensionManager.purchase_upgrade("secondSoftReset")
+                else:
+                    self.game_instance.DimensionManager.purchase_upgrade("secondSoftReset")
+            elif priority[0] == "DIMENSION_BOOST":
+                if priority[1] != None:
+                    if self.game_instance.DimensionManager.get_dimension_boosts() < priority[1]:
+                        success = self.game_instance.DimensionManager.buy_dimension_boost()
+                        if success and self.current_strategy.reevaluate == "DIMENSION_BOOST":
+                            self.reevaluate_strategy() 
+                else:
+                    success = self.game_instance.DimensionManager.buy_dimension_boost()
+                    if success and self.current_strategy.reevaluate == "DIMENSION_BOOST":
+                        self.reevaluate_strategy()
+            elif priority[0] == "SACRIFICE":
+                if priority[1] != None:
+                    self.game_instance.DimensionManager.purchase_sacrifice(priority[1])
+                else:
+                    self.game_instance.DimensionManager.purchase_sacrifice(2)
+            elif priority[0] == "MAX_ALL":
+                self.game_instance.DimensionManager.hold_m()
+            elif priority[0] == "MAX_MANUAL":
+                self.game_instance.DimensionManager.buy_max_manual()
+            elif priority[0] == "MAX_TICKSPEED":
+                self.game_instance.DimensionManager.purchase_upgrade("tickSpeedMax")
+            elif priority[0] == "BUY_TENS":
+                for d_id in range(8, 0, -1):
+                    self.game_instance.DimensionManager.purchase_upgrade(f"M{d_id}")
+            elif priority[0] == "BUY_SINGLES":
+                for d_id in range(8, 0, -1):
+                    self.game_instance.DimensionManager.purchase_upgrade(f"B{d_id}")
+            elif priority[0] == "C9_STRATEGY": # Need a better method
+                current_dim_boosts = self.game_instance.DimensionManager.get_dimension_boosts()
+                current_galaxies = self.game_instance.DimensionManager.get_galaxy_count()
+                while current_dim_boosts < 5:
+                    for d_id in range(1, 5 + (current_dim_boosts)):
+                        self.game_instance.DimensionManager.purchase_upgrade(f"M{d_id}")
+                    self.game_instance.DimensionManager.purchase_upgrade("softReset")
+                    while not self.game_instance.DimensionManager.get_dimension_boosts() == current_dim_boosts + 1:
+                        for d_id in range(4 + current_dim_boosts, 0, -1):
+                            self.game_instance.DimensionManager.purchase_upgrade(f"M{d_id}")
+                        self.game_instance.DimensionManager.purchase_upgrade("softReset")
+                    current_dim_boosts = self.game_instance.DimensionManager.get_dimension_boosts()
+
+                while current_dim_boosts >= 5:
+                    for d_id in range(8, 0, -1):
+                        if d_id < 8 and self.game_instance.CurrencyManager.get_cost_of_buy_10(d_id) != self.game_instance.CurrencyManager.get_cost_of_buy_10(8):
+                            self.game_instance.DimensionManager.purchase_upgrade(f"M{d_id}")
+                        elif d_id == 8:
+                            self.game_instance.DimensionManager.purchase_upgrade(f"M8")
+                    self.game_instance.DimensionManager.purchase_upgrade("tickSpeed")
+                    for d_id in range(8, 0, -1):
+                        if d_id < 8 and self.game_instance.CurrencyManager.get_cost_of_buy_10(d_id) != self.game_instance.CurrencyManager.get_cost_of_buy_10(8):
+                            self.game_instance.DimensionManager.purchase_upgrade(f"M{d_id}")
+                        elif d_id == 8:
+                            self.game_instance.DimensionManager.purchase_upgrade(f"M8")
+                    if self.game_instance.InfinityManager.big_crunch():
+                        time.sleep(2)
+                        self.game_instance.InfinityManager.buy_available_upgrades()
+                        self.game_instance.ChallengeManager.completed_challenges = self.game_instance.ChallengeManager.get_completed_challenges()
+                        self.reevaluate_strategy()
+                        break
+                    self.game_instance.DimensionManager.purchase_upgrade("secondSoftReset")
+                    if self.game_instance.DimensionManager.get_galaxy_count() == current_galaxies + 1:
+                        current_galaxies = self.game_instance.DimensionManager.get_galaxy_count()
+                        current_dim_boosts = self.game_instance.DimensionManager.get_dimension_boosts()
+                        break
+                    self.game_instance.DimensionManager.purchase_upgrade("softReset")
+                    if self.game_instance.DimensionManager.get_dimension_boosts() == current_dim_boosts + 1:
+                        current_dim_boosts = self.game_instance.DimensionManager.get_dimension_boosts()
+
+    def reevaluate_strategy(self):
+        self.current_strategy = self.choose_current_strategy()
+        self.perform_strategy_setup()
+        self.game_instance.BrowserManager.load_dimensions()
