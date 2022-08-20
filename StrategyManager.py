@@ -15,6 +15,7 @@ class StrategyManager:
         "auto_dimboost_max_8ths",
         "break_infinity",
         "big_crunch_amount",
+        "dim_boost_limit",
         "galaxies_to_always_dimboost",
         "max_galaxies",
         "on_big_crunch",
@@ -193,8 +194,8 @@ class StrategyManager:
                 else:
                     self.game_instance.DimensionManager.purchase_upgrade("secondSoftReset")
             elif priority[0] == "DIMENSION_BOOST":
-                if priority[1] != None:
-                    if self.game_instance.DimensionManager.get_dimension_boosts() < priority[1]:
+                if self.current_strategy.dim_boost_limit != None:
+                    if self.game_instance.DimensionManager.get_dimension_boosts() < self.current_strategy.dim_boost_limit:
                         success = self.game_instance.DimensionManager.buy_dimension_boost()
                         if success and self.current_strategy.reevaluate == "DIMENSION_BOOST":
                             self.reevaluate_strategy() 

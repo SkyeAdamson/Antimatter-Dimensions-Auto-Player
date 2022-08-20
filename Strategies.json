@@ -246,10 +246,11 @@
             "on_big_crunch" : [
                 "infinity_upgrades"
             ],
+            "dim_boost_limit" : 11,
             "priorities" : [
                 {"BIG_CRUNCH" : null},
                 {"ANTIMATTER_GALAXY" : 1},
-                {"DIMENSION_BOOST" : 11},
+                {"DIMENSION_BOOST" : null},
                 {"SACRIFICE" : null},
                 {"MAX_ALL" : null}
             ]
@@ -264,9 +265,10 @@
             "on_big_crunch" : [
                 "infinity_upgrades"
             ],
+            "dim_boost_limit" : 5,
             "priorities" : [
                 {"BIG_CRUNCH" : null},
-                {"DIMENSION_BOOST" : 5},
+                {"DIMENSION_BOOST" : null},
                 {"SACRIFICE" : 8},
                 {"MAX_ALL" : null}
             ]
@@ -275,7 +277,7 @@
         {
             "strategy_name" : "Pre-Infinity",
             "conditions" : [
-                {"MIN_DIM_BOOST" : 1}
+                {"MIN_DIM_BOOST" : 4}
             ],
             "on_big_crunch" : [
                 "infinity_upgrades"
